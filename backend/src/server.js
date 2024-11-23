@@ -89,5 +89,5 @@ app.get('/api/profiles/:id', (req, res) => {
 
 // Iniciar o servidor
 app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
+  console.log(`Servidor rodando em https://nosedive-5nwn.onrender.com:${PORT}`);
 });

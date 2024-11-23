@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nosedive App</title>
+   <script src="server.js"></script> 
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f9fc;
+            color: #333;
+        }
+        header {
+            background-color: #ff6f61;
+            color: white;
+            text-align: center;
+            padding: 1em 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        main {
+            padding: 20px;
+        }
+        .profile-form, .upload-section, .search-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        h2 {
+            margin-top: 0;
+            color: #ff6f61;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], textarea, input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            transition: border 0.3s;
+        }
+        input[type="text"]:focus, textarea:focus, input[type="file"]:focus {
+            border: 1px solid #ff6f61;
+            outline: none;
+        }
+        button {
+            background-color: #ff6f61;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e65c50;
+        }
+        .profiles {
+            margin-top: 20px;
+        }
+        .profile {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        .uploaded-image {
+            max-width: 150px;
+            height: auto;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Nosedive App</h1>
+    </header>
+    <main>
+        <section class="profile-form">
+            <h2>Criar Perfil</h2>
+            <form id="createProfile">
+                <label for="name">Nome:</label>
+                <input type="text" id="name" required>
+                <label for="bio">Biografia:</label>
+                <textarea id="bio" rows="4" required></textarea>
+                <button type="submit">Criar Perfil</button>
+            </form>
+        </section>
+        <section class="upload-section">
+            <h2>Fazer Upload de Imagem</h2>
+            <form id="uploadForm">
+                <label for="imageUpload">Escolha uma imagem:</label>
+                <input type="file" id="imageUpload" accept="image/*" required>
+                <button type="submit">Fazer Upload</button>
+            </form>
+        </section>
+        <section class="search-section">
+            <h2>Buscar Perfil</h2>
+            <input type="text" id="searchId" placeholder="Digite o ID do perfil" />
+            <button id="searchButton">Buscar</button>
+        </section>
+        <div class="profiles" id="profilesList">
+            <h2>Perfis Criados</h2>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Sistema de Avaliação. Todos os direitos reservados.</p>
+    </footer>
+    <script>
+        const profiles = []; // Inicializa um array para armazenar perfis
+
+        // Função para salvar perfis no localStorage
+        function saveProfiles() {
+            localStorage.setItem('profiles', JSON.stringify(profiles));
+        }
+
+        document.getElementById('createProfile').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const bio = document.getElementById('bio').value;
+            const id = generateRandomId();
+
+            fetch('http://localhost:3000/api/profiles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id, name, bio })
+            })
+            .then(response => response.json())
+            .then(data => {
+                profiles.push(data);
+                saveProfiles();
+                displayProfiles();
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const imageInput = document.getElementById('imageUpload');
+            const file = imageInput.files[0];
+
+            const formData = new FormData();
+            formData.append('image', file);
+            formData.append('profileId', profiles[profiles.length - 1].id);
+
+            fetch('http://localhost:3000/api/uploads', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                profiles[profiles.length - 1].images.push(data);
+                saveProfiles();
+                displayProfiles();
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+
+            imageInput.value = ''; // Limpar o input
+        });
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            const searchId = document.getElementById('searchId').value;
+
+            fetch(`http://localhost:3000/api/profiles/${searchId}`)
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    alert(data.message);
+                    return;
+                }
+                displayProfile(data.profile, data.uploads);
+            })
+            .catch((error) => {
+                console.error('Erro:', error);
+            });
+        });
+
+        // Função para exibir perfil e uploads
+        function displayProfile(profile, uploads) {
+            const profilesList = document.getElementById('profilesList');
+            profilesList.innerHTML = '';
+
+            const profileDiv = document.createElement('div');
+            profileDiv.classList.add('profile');
+            profileDiv.innerHTML = `<h3>${profile.name} (ID: ${profile.id})</h3><p>${profile.bio}</p>`;
+            
+            uploads.forEach(upload => {
+                const imgElement = document.createElement('img');
+                imgElement.src = upload.image;
+                imgElement.classList.add('uploaded-image');
+                profileDiv.appendChild(imgElement);
+            });
+
+            profilesList.appendChild(profileDiv);
+        }
+
+        function displayProfiles() {
+            const profilesList = document.getElementById('profilesList');
+            profilesList.innerHTML = '';
+            profiles.forEach((profile) => {
+                const profileDiv = document.createElement('div');
+                profileDiv.classList.add('profile');
+                profileDiv.innerHTML = `<h3>${profile.name} (ID: ${profile.id})</h3><p>${profile.bio}</p>`;
+                profilesList.appendChild(profileDiv);
+            });
+        }
+
+        function generateRandomId() {
+            return Math.floor(100000 + Math.random() * 900000).toString(); // Gera um ID de 6 dígitos
+        }
+    </script>
+</body>
+  </html>

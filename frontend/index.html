@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nosedive App</title>
-   <script src="server.js"></script> 
+   <script src="./server.js"></script> 
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -130,7 +130,7 @@
             const bio = document.getElementById('bio').value;
             const id = generateRandomId();
 
-            fetch('http://localhost:3000/api/profiles', {
+            fetch('https://nosedive-5nwn.onrender.com/api/profiles', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -157,7 +157,7 @@
             formData.append('image', file);
             formData.append('profileId', profiles[profiles.length - 1].id);
 
-            fetch('http://localhost:3000/api/uploads', {
+            fetch('https://nosedive-5nwn.onrender.com/api/uploads', {
                 method: 'POST',
                 body: formData
             })
@@ -177,7 +177,7 @@
         document.getElementById('searchButton').addEventListener('click', function() {
             const searchId = document.getElementById('searchId').value;
 
-            fetch(`http://localhost:3000/api/profiles/${searchId}`)
+            fetch(`https://nosedive-5nwn.onrender.com/api/profiles/${searchId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.message) {
@@ -226,4 +226,4 @@
         }
     </script>
 </body>
-  </html>
+</html>

@@ -2,10 +2,11 @@
   "name": "nosedive-app",
   "version": "1.0.0",
   "description": "A simple app to create profiles and upload images.",
-  "main": "server.js",
-  "scripts": {
-  "start": "node server.js",
-  "preinstall": "npm cache clean --force"
+    "main": "index.js",
+    "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+    "preinstall": "npm cache clean --force"
   },
   "dependencies": {
     "body-parser": "^1.19.0",

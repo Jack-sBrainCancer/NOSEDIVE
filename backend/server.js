@@ -9,7 +9,7 @@ app.use(express.json());
 app.use(express.static('uploads')); // Serve arquivos estáticos na pasta uploads
 
 // Conectar ao MongoDB
-mongoose.connect('mongodb://https://nosedive-5nwn.onrender.com/', {
+mongoose.connect('mongodb://nosedive-5nwn.onrender.com/', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });

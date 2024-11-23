@@ -4,10 +4,10 @@
   "description": "A simple app to create profiles and upload images.",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
-    "preinstall": "npm cache clean --force"
-  },
+  "start": "node backend/src/server.js",
+  "dev": "node --watch backend/src/server.js",
+  "preinstall": "npm cache clean --force"
+},
   "dependencies": {
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",

@@ -77,6 +77,40 @@ header {
   animation: fadeIn .6s ease 2.5s forwards
 }
 
+.video-6 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+
+.video-7 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+
+.video-8 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+
+.video-9 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+
+.video-10 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+.video-11 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+.video-12 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+.video-13 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+.video-14 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
+.video-15 {
+  animation: fadeIn .6s ease 2.5s forwards
+}
 @keyframes fadeIn {
   0% {
     transform: translateY(100px);

@@ -4992,9 +4992,9 @@ function uc() { if (!(typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ > "u" || typeof __RE
 var Bd = os.exports,
   Ku = Bd;
 Xl.createRoot = Ku.createRoot, Xl.hydrateRoot = Ku.hydrateRoot;
-const Hd = "/assets/logo-d6883944.png";
+const Hd = "assets/cover.png";
 
-function Wd() { return ie.useEffect(() => { const e = document.createElement("script"); return e.src = "https://apis.google.com/js/platform.js", e.async = !0, document.body.appendChild(e), () => { document.body.removeChild(e) } }, []), j.jsx("header", { children: j.jsxs("div", { className: "logo", children: [j.jsx("img", { src: Hd, alt: "logo" }), j.jsx("h1", { children: "" }), j.jsx("div", { className: "g-ytsubscribe", "data-channelid": "UC5QX7p9EavdNa2m25cITbzg", "data-layout": "default", "data-count": "default" })] }) }) }
+function Wd() { return ie.useEffect(() => { const e = document.createElement("script"); return e.src = "https://apis.google.com/js/platform.js", e.async = !0, document.body.appendChild(e), () => { document.body.removeChild(e) } }, []), j.jsx("header", { children: j.jsxs("div", { className: "logo", children: [j.jsx("img", { src: Hd, alt: "logo" }), j.jsx("h1", { children: "Guilherme" }), j.jsx("div", { className: "g-ytsubscribe", "data-channelid": "UCzQB4TGmQJKnCocn9GP8zIw", "data-layout": "default", "data-count": "default" })] }) }) }
 var sc = { color: void 0, size: void 0, className: void 0, style: void 0, attr: void 0 },
   Yu = rn.createContext && rn.createContext(sc),
   pn = globalThis && globalThis.__assign || function() { return pn = Object.assign || function(e) { for (var n, t = 1, r = arguments.length; t < r; t++) { n = arguments[t]; for (var l in n) Object.prototype.hasOwnProperty.call(n, l) && (e[l] = n[l]) } return e }, pn.apply(this, arguments) },
@@ -5024,7 +5024,7 @@ function Yd(e) {
 }
 
 function Xd(e) { return Kd({ tag: "svg", attr: { viewBox: "0 0 16 16", fill: "currentColor" }, child: [{ tag: "path", attr: { fillRule: "evenodd", clipRule: "evenodd", d: "M13.917 7A6.002 6.002 0 0 0 2.083 7H1.071a7.002 7.002 0 0 1 13.858 0h-1.012z" } }] })(e) }
-const Gd = async () => { const r = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCzQB4TGmQJKnCocn9GP8zIw&maxResults=6&order=date&type=video&videoDuration=long&key=AIzaSyBMiX5wtv4EnMUeeRXurxQieCCHY2Ov3oc"); if (r.status != 200) throw new Error("Erro ao carregar vídeos"); return (await r.json()).items };
+const Gd = async () => { const r = await fetch("https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCzQB4TGmQJKnCocn9GP8zIw&maxResults=15&order=date&type=video&videoDuration=any&key=AIzaSyBMiX5wtv4EnMUeeRXurxQieCCHY2Ov3oc"); if (r.status != 200) throw new Error("Erro ao carregar vídeos"); return (await r.json()).items };
 var cc = { exports: {} },
   Zd = "SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED",
   Jd = Zd,

@@ -1,0 +1,13 @@
+{
+  "name": "nosedive",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [],
+  "author": "609 Carvalho",
+  "license": "ISC",
+  "description": "Backend for a new app"
+}

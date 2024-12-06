@@ -1,10 +1,10 @@
 {
   "name": "nosedive",
   "version": "1.0.0",
-  "main": "backend/src/server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node backend/src/server.js",
-    "dev": "node --watch backend/src/server.js"
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js" 
   },
   "keywords": [],
   "author": "609 Carvalho",

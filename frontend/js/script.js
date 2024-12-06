@@ -1,48 +1,37 @@
-const profiles = JSON.parse(localStorage.getItem('profiles')) || []; // Carrega perfis do localStorage
+const profiles = []; // Inicia a lista de perfis vazia
 
-// Função para salvar perfis no localStorage
-function saveProfiles() {
-  localStorage.setItem('profiles', JSON.stringify(profiles));
+// Função para carregar perfis do backend
+async function loadProfiles() {
+  const response = await fetch('/api/profiles');
+  const data = await response.json();
+  profiles.push(...data); // Adiciona os perfis recebidos
+  displayProfiles();
 }
 
-document.getElementById('createProfile').addEventListener('submit', function(event) {
+// Função para salvar um novo perfil no backend
+async function saveProfile(profile) {
+  await fetch('/api/profiles', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(profile),
+  });
+}
+
+// Atualiza o evento de submissão do formulário de criação de perfil
+document.getElementById('createProfile').addEventListener('submit', async function(event) {
   event.preventDefault();
   const name = document.getElementById('name').value;
   const bio = document.getElementById('bio').value;
 
-  const profile = { id: generateRandomId(), name, bio, images: [] };
-  profiles.push(profile);
+  const profile = { name, bio }; // Não precisa do ID aqui, será gerado no backend
+  await saveProfile(profile); // Salva o perfil no backend
   document.getElementById('createProfile').reset();
-  saveProfiles(); // Salva os perfis atualizados no localStorage
-  displayProfiles();
+  await loadProfiles(); // Carrega os perfis atualizados do backend
 });
 
-document.getElementById('uploadForm').addEventListener('submit', function(event) {
-  event.preventDefault();
-  const imageInput = document.getElementById('imageUpload');
-  const file = imageInput.files[0];
-  const reader = new FileReader();
-
-  reader.onload = function(e) {
-    const image = {
-      src: e.target.result,
-      ratings: 0 // Inicialmente sem avaliação
-    };
-    const notificationSong = new Audio('https://rateme.social/audio/send.mp3');
-
-    if (profiles.length > 0) {
-      profiles[profiles.length - 1].images.push(image);
-      saveProfiles();
-      displayProfiles();
-    notificationSong.play();
-    } else {
-      alert('Crie um perfil antes de fazer upload de imagens.');
-    }
-  };
-  reader.readAsDataURL(file);
-  imageInput.value = ''; // Limpar o input
-});
-
+// Função para exibir perfis
 function displayProfiles() {
   const profilesList = document.getElementById('profilesList');
   profilesList.innerHTML = '';
@@ -138,16 +127,31 @@ function playNotificationSound(rating) {
 }
 
 // Exibir perfis ao carregar a página
-displayProfiles();
-
-document.getElementById('createProfile').addEventListener('submit', function(event) {
-  event.preventDefault(); // Evita o envio do formulário
-  document.getElementById('profileSection').style.display = 'none'; // Esconde o formulário de perfil
-  // Aqui você pode adicionar a lógica para processar os dados do formulário, se necessário.
-});
+loadProfiles();
 
 document.getElementById('uploadForm').addEventListener('submit', function(event) {
   event.preventDefault(); // Evita o envio do formulário
-  document.getElementById('uploadSection').style.display = 'none'; // Esconde o formulário de upload
-  // Aqui você pode adicionar a lógica para processar os dados do formulário, se necessário.
+  const imageInput = document.getElementById('imageUpload');
+  const file = imageInput.files[0];
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    const image = {
+      src: e.target.result,
+      ratings: 0 // Inicialmente sem avaliação
+    };
+    const notificationSong = new Audio('https://rateme.social/audio/send.mp3');
+
+    if (profiles.length > 0) {
+      profiles[profiles.length - 1].images.push(image);
+      saveProfiles();
+      displayProfiles();
+      notificationSong.play();
+    } else {
+      alert('Crie um perfil antes de fazer upload de imagens.');
+    }
+  };
+
+  reader.readAsDataURL(file);
+  imageInput.value = ''; // Limpar o input
 });
